@@ -10,7 +10,9 @@ Make a shared state AJAX drawing program
 Contributors / Licensing
 ========================
 
-stars.jpg was taken from PSD Graphics at http://www.psdgraphics.com/backgrounds/night-sky-stars-background/
+stars.jpg was taken from PSD Graphics 
+
+(thread: http://www.psdgraphics.com/backgrounds/night-sky-stars-background/)
 
 Method to Draw Large Star Shape Came From User markE At stackflow.com 
 
