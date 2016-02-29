@@ -22,9 +22,9 @@
 
 
 import flask
-from flask import Flask, request
+from flask import *
 import json
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.debug = True
 
 # An example world
@@ -74,27 +74,52 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return None
+    return render_template("index.html")
+
+@app.route("/json2.js", methods=['GET'])
+def json2():
+    return app.send_static_file('json2.js')
 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    return None
+    new_entity = flask_post_json()
+
+    if (request.method == 'POST'):
+        myWorld.set(entity,new_entity)
+    elif (request.method == 'PUT'):
+        for key in new_entity:
+            myWorld.update(entity,key,new_entity[key])
+
+    return json.dumps(myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return None
+    curr_world = json.dumps(myWorld.world())
+
+    if (request.method == 'GET'):
+        return curr_world
+    elif (request.method == 'POST'):
+        new_world = flask_post_json()
+        myWorld.clear()
+        for entity in new_world:
+            myWorld.set(entity,new_world[entity])
+        curr_world = json.dumps(myWorld.world())
+
+    return curr_world
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return None
+    entity = json.dumps(myWorld.get(entity))
+    return entity
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
-    return None
+    myWorld.clear()
+    return json.dumps(myWorld.world())
 
 if __name__ == "__main__":
     app.run()

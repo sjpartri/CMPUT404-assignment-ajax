@@ -1,3 +1,18 @@
+function drawCircle(context,entity,spikes, outerRadius, innerRadius) {
+    with(context) {
+        beginPath();              
+        lineWidth = 3;
+        var x = entity["x"];
+        var y = entity["y"];
+        //moveTo(x,y);
+        fillStyle = entity["colour"];
+        strokeStyle = fillStyle;
+        arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
+        stroke();                                
+    }
+}
+
+
 * Explore using AJAX to make a shared state interactive application
 ** Description
 
